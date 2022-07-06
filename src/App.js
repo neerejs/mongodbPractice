@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+const express = require('express')
+const { getDb, connectToDb } = require('./db')
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+// init app & middleware
+const app = express()
 
-export default App;
+// db connection
+let db
+
+connectToDb((err) => {
+  if(!err){
+    app.listen('3000', () => {
+      console.log('app listening on port 3000')
+    })
+    db = getDb()
+  }
+})
+
+// routes
+app.get('/books', (req, res) => {
+  res.json({mssg: "welcome to the api"})
+})
